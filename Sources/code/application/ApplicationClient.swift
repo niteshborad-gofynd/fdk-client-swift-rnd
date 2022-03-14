@@ -80,9 +80,80 @@ public class ApplicationClient {
     public class Catalog {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getProductDetailBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/{slug}/") 
+            
+            ulrs["getProductSizesBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/{slug}/sizes/") 
+            
+            ulrs["getProductComparisonBySlugs"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/compare/") 
+            
+            ulrs["getSimilarComparisonProductBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/{slug}/similar/compare/") 
+            
+            ulrs["getComparedFrequentlyProductBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/{slug}/similar/compared-frequently/") 
+            
+            ulrs["getProductSimilarByIdentifier"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/{slug}/similar/{similar_type}/") 
+            
+            ulrs["getProductVariantsBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/{slug}/variants/") 
+            
+            ulrs["getProductStockByIds"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/stock-status/") 
+            
+            ulrs["getProductStockForTimeByIds"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/stock-status/poll/") 
+            
+            ulrs["getProducts"] = config.domain.appendAsPath("/service/application/catalog/v1.0/products/") 
+            
+            ulrs["getBrands"] = config.domain.appendAsPath("/service/application/catalog/v1.0/brands/") 
+            
+            ulrs["getBrandDetailBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/brands/{slug}/") 
+            
+            ulrs["getCategories"] = config.domain.appendAsPath("/service/application/catalog/v1.0/categories/") 
+            
+            ulrs["getCategoryDetailBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/categories/{slug}/") 
+            
+            ulrs["getHomeProducts"] = config.domain.appendAsPath("/service/application/catalog/v1.0/home/listing/") 
+            
+            ulrs["getDepartments"] = config.domain.appendAsPath("/service/application/catalog/v1.0/departments/") 
+            
+            ulrs["getSearchResults"] = config.domain.appendAsPath("/service/application/catalog/v1.0/auto-complete/") 
+            
+            ulrs["getCollections"] = config.domain.appendAsPath("/service/application/catalog/v1.0/collections/") 
+            
+            ulrs["getCollectionItemsBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/collections/{slug}/items/") 
+            
+            ulrs["getCollectionDetailBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/collections/{slug}/") 
+            
+            ulrs["getFollowedListing"] = config.domain.appendAsPath("/service/application/catalog/v1.0/follow/{collection_type}/") 
+            
+            ulrs["followById"] = config.domain.appendAsPath("/service/application/catalog/v1.0/follow/{collection_type}/{collection_id}/") 
+            
+            ulrs["unfollowById"] = config.domain.appendAsPath("/service/application/catalog/v1.0/follow/{collection_type}/{collection_id}/") 
+            
+            ulrs["getFollowerCountById"] = config.domain.appendAsPath("/service/application/catalog/v1.0/follow/{collection_type}/{collection_id}/count/") 
+            
+            ulrs["getFollowIds"] = config.domain.appendAsPath("/service/application/catalog/v1.0/follow/ids/") 
+            
+            ulrs["getStores"] = config.domain.appendAsPath("/service/application/catalog/v1.0/locations/") 
+            
+            ulrs["getInStockLocations"] = config.domain.appendAsPath("/service/application/catalog/v1.0/in-stock/locations/") 
+            
+            ulrs["getLocationDetailsById"] = config.domain.appendAsPath("/service/application/catalog/v1.0/locations/{location_id}/") 
+            
+            ulrs["getProductBundlesBySlug"] = config.domain.appendAsPath("/service/application/catalog/v1.0/product-grouping/") 
+            
+            ulrs["getProductPriceBySlug"] = config.domain.appendAsPath("/service/application/catalog/v2.0/products/{slug}/sizes/{size}/price/") 
+            
+            ulrs["getProductSellersBySlug"] = config.domain.appendAsPath("/service/application/catalog/v2.0/products/{slug}/sizes/{size}/sellers/") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -103,10 +174,15 @@ public class ApplicationClient {
  
 
 
+
+            var fullUrl = relativeUrls["getProductDetailBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/\(slug)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -159,10 +235,15 @@ if let value = storeId {
  
 
 
+
+            var fullUrl = relativeUrls["getProductSizesBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/\(slug)/sizes/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -212,10 +293,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getProductComparisonBySlugs"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/compare/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -260,10 +344,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getSimilarComparisonProductBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/\(slug)/similar/compare/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -308,10 +397,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getComparedFrequentlyProductBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/\(slug)/similar/compared-frequently/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -357,10 +451,17 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getProductSimilarByIdentifier"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "similar_type" + "}", with: "\(similarType)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/\(slug)/similar/\(similarType)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -405,10 +506,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getProductVariantsBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/\(slug)/variants/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -492,10 +598,13 @@ if let value = upc {
  
 
 
+
+            var fullUrl = relativeUrls["getProductStockByIds"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/stock-status/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -561,10 +670,13 @@ if let value = pageId {
  
 
 
+
+            var fullUrl = relativeUrls["getProductStockForTimeByIds"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/stock-status/poll/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -722,10 +834,13 @@ if let value = pageType {
  
 
 
+
+            var fullUrl = relativeUrls["getProducts"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/products/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -873,10 +988,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getBrands"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/brands/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -970,10 +1088,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getBrandDetailBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/brands/\(slug)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1025,10 +1148,13 @@ if let value = department {
  
 
 
+
+            var fullUrl = relativeUrls["getCategories"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/categories/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -1073,10 +1199,15 @@ if let value = department {
  
 
 
+
+            var fullUrl = relativeUrls["getCategoryDetailBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/categories/\(slug)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1144,10 +1275,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getHomeProducts"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/home/listing/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -1241,10 +1375,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getDepartments"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/departments/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1294,10 +1431,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getSearchResults"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/auto-complete/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -1365,10 +1505,13 @@ if let value = tag {
  
 
 
+
+            var fullUrl = relativeUrls["getCollections"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/collections/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -1502,10 +1645,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getCollectionItemsBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/collections/\(slug)/items/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -1618,10 +1766,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getCollectionDetailBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/collections/\(slug)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1682,10 +1835,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFollowedListing"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_type" + "}", with: "\(collectionType)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/follow/\(collectionType)/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -1766,10 +1924,10 @@ if let value = pageSize {
         
         /**
         *
-        * Summary: Unfollow an entity (product/brand/collection)
-        * Description: You can undo a followed product, brand or collection by its ID. This action is referred as _unfollow_.
+        * Summary: Follow an entity (product/brand/collection)
+        * Description: Follow a particular entity such as product, brand, collection specified by its ID.
         **/
-        public func unfollowById(
+        public func followById(
             collectionType: String,
             collectionId: String,
             
@@ -1781,10 +1939,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["followById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_type" + "}", with: "\(collectionType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_id" + "}", with: "\(collectionId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
-                method: "delete",
-                url: "/service/application/catalog/v1.0/follow/\(collectionType)/\(collectionId)/",
+                method: "post",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1815,10 +1980,10 @@ if let value = pageSize {
         
         /**
         *
-        * Summary: Follow an entity (product/brand/collection)
-        * Description: Follow a particular entity such as product, brand, collection specified by its ID.
+        * Summary: Unfollow an entity (product/brand/collection)
+        * Description: You can undo a followed product, brand or collection by its ID. This action is referred as _unfollow_.
         **/
-        public func followById(
+        public func unfollowById(
             collectionType: String,
             collectionId: String,
             
@@ -1830,10 +1995,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["unfollowById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_type" + "}", with: "\(collectionType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_id" + "}", with: "\(collectionId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
-                method: "post",
-                url: "/service/application/catalog/v1.0/follow/\(collectionType)/\(collectionId)/",
+                method: "delete",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1879,10 +2051,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFollowerCountById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_type" + "}", with: "\(collectionType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "collection_id" + "}", with: "\(collectionId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/follow/\(collectionType)/\(collectionId)/count/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -1934,10 +2113,13 @@ if let value = collectionType {
  
 
 
+
+            var fullUrl = relativeUrls["getFollowIds"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/follow/ids/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2037,10 +2219,13 @@ if let value = longitude {
  
 
 
+
+            var fullUrl = relativeUrls["getStores"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/locations/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2213,10 +2398,13 @@ if let value = longitude {
  
 
 
+
+            var fullUrl = relativeUrls["getInStockLocations"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/in-stock/locations/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2334,10 +2522,15 @@ if let value = longitude {
  
 
 
+
+            var fullUrl = relativeUrls["getLocationDetailsById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "location_id" + "}", with: "\(locationId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/locations/\(locationId)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -2397,10 +2590,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getProductBundlesBySlug"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v1.0/product-grouping/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2462,10 +2658,17 @@ if let value = pincode {
  
 
 
+
+            var fullUrl = relativeUrls["getProductPriceBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "size" + "}", with: "\(size)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v2.0/products/\(slug)/sizes/\(size)/price/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2543,10 +2746,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getProductSellersBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "size" + "}", with: "\(size)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/catalog/v2.0/products/\(slug)/sizes/\(size)/sellers/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2647,9 +2857,66 @@ if let value = pageSize {
     public class Cart {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getCart"] = config.domain.appendAsPath("/service/application/cart/v1.0/detail") 
+            
+            ulrs["getCartLastModified"] = config.domain.appendAsPath("/service/application/cart/v1.0/detail") 
+            
+            ulrs["addItems"] = config.domain.appendAsPath("/service/application/cart/v1.0/detail") 
+            
+            ulrs["updateCart"] = config.domain.appendAsPath("/service/application/cart/v1.0/detail") 
+            
+            ulrs["getItemCount"] = config.domain.appendAsPath("/service/application/cart/v1.0/basic") 
+            
+            ulrs["getCoupons"] = config.domain.appendAsPath("/service/application/cart/v1.0/coupon") 
+            
+            ulrs["applyCoupon"] = config.domain.appendAsPath("/service/application/cart/v1.0/coupon") 
+            
+            ulrs["removeCoupon"] = config.domain.appendAsPath("/service/application/cart/v1.0/coupon") 
+            
+            ulrs["getBulkDiscountOffers"] = config.domain.appendAsPath("/service/application/cart/v1.0/bulk-price") 
+            
+            ulrs["applyRewardPoints"] = config.domain.appendAsPath("/service/application/cart/v1.0/redeem/points/") 
+            
+            ulrs["getAddresses"] = config.domain.appendAsPath("/service/application/cart/v1.0/address") 
+            
+            ulrs["addAddress"] = config.domain.appendAsPath("/service/application/cart/v1.0/address") 
+            
+            ulrs["getAddressById"] = config.domain.appendAsPath("/service/application/cart/v1.0/address/{id}") 
+            
+            ulrs["updateAddress"] = config.domain.appendAsPath("/service/application/cart/v1.0/address/{id}") 
+            
+            ulrs["removeAddress"] = config.domain.appendAsPath("/service/application/cart/v1.0/address/{id}") 
+            
+            ulrs["selectAddress"] = config.domain.appendAsPath("/service/application/cart/v1.0/select-address") 
+            
+            ulrs["selectPaymentMode"] = config.domain.appendAsPath("/service/application/cart/v1.0/payment") 
+            
+            ulrs["validateCouponForPayment"] = config.domain.appendAsPath("/service/application/cart/v1.0/payment/validate/") 
+            
+            ulrs["getShipments"] = config.domain.appendAsPath("/service/application/cart/v1.0/shipment") 
+            
+            ulrs["checkoutCart"] = config.domain.appendAsPath("/service/application/cart/v1.0/checkout") 
+            
+            ulrs["updateCartMeta"] = config.domain.appendAsPath("/service/application/cart/v1.0/meta") 
+            
+            ulrs["getCartShareLink"] = config.domain.appendAsPath("/service/application/cart/v1.0/share-cart") 
+            
+            ulrs["getCartSharedItems"] = config.domain.appendAsPath("/service/application/cart/v1.0/share-cart/{token}") 
+            
+            ulrs["updateCartWithSharedItems"] = config.domain.appendAsPath("/service/application/cart/v1.0/share-cart/{token}/{action}") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -2701,10 +2968,13 @@ if let value = assignCardId {
  
 
 
+
+            var fullUrl = relativeUrls["getCart"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2756,10 +3026,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCartLastModified"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "head",
-                url: "/service/application/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -2819,10 +3092,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["addItems"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -2890,10 +3166,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["updateCart"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -2945,10 +3224,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getItemCount"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/basic",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3000,10 +3282,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCoupons"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/coupon",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3079,10 +3364,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["applyCoupon"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/coupon",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -3134,10 +3422,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["removeCoupon"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/cart/v1.0/coupon",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3213,10 +3504,13 @@ if let value = slug {
  
 
 
+
+            var fullUrl = relativeUrls["getBulkDiscountOffers"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/bulk-price",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3284,10 +3578,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["applyRewardPoints"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/redeem/points/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -3371,10 +3668,13 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["getAddresses"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/address",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3418,10 +3718,13 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["addAddress"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/address",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -3506,10 +3809,15 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["getAddressById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/address/\(id)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3554,10 +3862,15 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["updateAddress"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/cart/v1.0/address/\(id)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -3602,10 +3915,15 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["removeAddress"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/cart/v1.0/address/\(id)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -3673,10 +3991,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["selectAddress"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/select-address",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -3728,10 +4049,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["selectPaymentMode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/cart/v1.0/payment",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -3823,10 +4147,13 @@ if let value = merchantCode {
  
 
 
+
+            var fullUrl = relativeUrls["validateCouponForPayment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/payment/validate/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3902,10 +4229,13 @@ if let value = areaCode {
  
 
 
+
+            var fullUrl = relativeUrls["getShipments"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/shipment",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -3949,10 +4279,13 @@ if let value = areaCode {
  
 
 
+
+            var fullUrl = relativeUrls["checkoutCart"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/checkout",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4004,10 +4337,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["updateCartMeta"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/cart/v1.0/meta",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4051,10 +4387,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCartShareLink"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/share-cart",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4099,10 +4438,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCartSharedItems"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "token" + "}", with: "\(token)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/cart/v1.0/share-cart/\(token)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4148,10 +4492,17 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["updateCartWithSharedItems"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "token" + "}", with: "\(token)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "action" + "}", with: "\(action)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/cart/v1.0/share-cart/\(token)/\(action)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4185,9 +4536,22 @@ if let value = id {
     public class Common {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["searchApplication"] = config.domain.appendAsPath("/service/common/configuration/v1.0/application/search-application") 
+            
+            ulrs["getLocations"] = config.domain.appendAsPath("/service/common/configuration/v1.0/location") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -4222,10 +4586,13 @@ if let value = authorization {
 }
 
 
+
+            var fullUrl = relativeUrls["searchApplication"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/common/configuration/v1.0/application/search-application",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  xHeaders,
                 body: nil,
@@ -4285,10 +4652,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getLocations"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/common/configuration/v1.0/location",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -4322,9 +4692,32 @@ if let value = id {
     public class Lead {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getTicket"] = config.domain.appendAsPath("/service/application/lead/v1.0/ticket/{id}") 
+            
+            ulrs["createHistory"] = config.domain.appendAsPath("/service/application/lead/v1.0/ticket/{id}/history") 
+            
+            ulrs["createTicket"] = config.domain.appendAsPath("/service/application/lead/v1.0/ticket/") 
+            
+            ulrs["getCustomForm"] = config.domain.appendAsPath("/service/application/lead/v1.0/form/{slug}") 
+            
+            ulrs["submitCustomForm"] = config.domain.appendAsPath("/service/application/lead/v1.0/form/{slug}/submit") 
+            
+            ulrs["getParticipantsInsideVideoRoom"] = config.domain.appendAsPath("/service/application/lead/v1.0/video/room/{unique_name}/participants") 
+            
+            ulrs["getTokenForVideoRoom"] = config.domain.appendAsPath("/service/application/lead/v1.0/video/room/{unique_name}/token") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -4345,10 +4738,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getTicket"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/lead/v1.0/ticket/\(id)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4393,10 +4791,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["createHistory"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/lead/v1.0/ticket/\(id)/history",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4440,10 +4843,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["createTicket"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/lead/v1.0/ticket/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4488,10 +4894,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCustomForm"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/lead/v1.0/form/\(slug)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4536,10 +4947,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["submitCustomForm"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/lead/v1.0/form/\(slug)/submit",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4584,10 +5000,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getParticipantsInsideVideoRoom"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "unique_name" + "}", with: "\(uniqueName)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/lead/v1.0/video/room/\(uniqueName)/participants",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4632,10 +5053,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getTokenForVideoRoom"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "unique_name" + "}", with: "\(uniqueName)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/lead/v1.0/video/room/\(uniqueName)/token",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4669,9 +5095,26 @@ if let value = id {
     public class Theme {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getAllPages"] = config.domain.appendAsPath("/service/application/theme/v1.0/{theme_id}/page") 
+            
+            ulrs["getPage"] = config.domain.appendAsPath("/service/application/theme/v1.0/{theme_id}/{page_value}") 
+            
+            ulrs["getAppliedTheme"] = config.domain.appendAsPath("/service/application/theme/v1.0/applied-theme") 
+            
+            ulrs["getThemeForPreview"] = config.domain.appendAsPath("/service/application/theme/v1.0/{theme_id}/preview") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -4692,10 +5135,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getAllPages"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "theme_id" + "}", with: "\(themeId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/theme/v1.0/\(themeId)/page",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4741,10 +5189,17 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getPage"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "theme_id" + "}", with: "\(themeId)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "page_value" + "}", with: "\(pageValue)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/theme/v1.0/\(themeId)/\(pageValue)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4788,10 +5243,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getAppliedTheme"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/theme/v1.0/applied-theme",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4836,10 +5294,15 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getThemeForPreview"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "theme_id" + "}", with: "\(themeId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/theme/v1.0/\(themeId)/preview",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -4873,9 +5336,84 @@ if let value = id {
     public class User {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["loginWithFacebook"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/facebook-token") 
+            
+            ulrs["loginWithGoogle"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/google-token") 
+            
+            ulrs["loginWithGoogleAndroid"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/google-android") 
+            
+            ulrs["loginWithGoogleIOS"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/google-ios") 
+            
+            ulrs["loginWithAppleIOS"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/apple-ios") 
+            
+            ulrs["loginWithOTP"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/otp") 
+            
+            ulrs["loginWithEmailAndPassword"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/password") 
+            
+            ulrs["sendResetPasswordEmail"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/password/reset") 
+            
+            ulrs["forgotPassword"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/password/reset/forgot") 
+            
+            ulrs["sendResetToken"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/password/reset/token") 
+            
+            ulrs["loginWithToken"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/login/token") 
+            
+            ulrs["registerWithForm"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/register/form") 
+            
+            ulrs["verifyEmail"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/verify/email") 
+            
+            ulrs["verifyMobile"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/verify/mobile") 
+            
+            ulrs["hasPassword"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/has-password") 
+            
+            ulrs["updatePassword"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/password") 
+            
+            ulrs["logout"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/logout") 
+            
+            ulrs["sendOTPOnMobile"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/otp/mobile/send") 
+            
+            ulrs["verifyMobileOTP"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/otp/mobile/verify") 
+            
+            ulrs["sendOTPOnEmail"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/otp/email/send") 
+            
+            ulrs["verifyEmailOTP"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/otp/email/verify") 
+            
+            ulrs["getLoggedInUser"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/session") 
+            
+            ulrs["getListOfActiveSessions"] = config.domain.appendAsPath("/service/application/user/authentication/v1.0/sessions") 
+            
+            ulrs["getPlatformConfig"] = config.domain.appendAsPath("/service/application/user/platform/v1.0/config") 
+            
+            ulrs["updateProfile"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/detail") 
+            
+            ulrs["addMobileNumber"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/mobile") 
+            
+            ulrs["deleteMobileNumber"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/mobile") 
+            
+            ulrs["setMobileNumberAsPrimary"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/mobile/primary") 
+            
+            ulrs["sendVerificationLinkToMobile"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/mobile/link/send") 
+            
+            ulrs["addEmail"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/email") 
+            
+            ulrs["deleteEmail"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/email") 
+            
+            ulrs["setEmailAsPrimary"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/email/primary") 
+            
+            ulrs["sendVerificationLinkToEmail"] = config.domain.appendAsPath("/service/application/user/profile/v1.0/email/link/send") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -4903,10 +5441,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithFacebook"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/facebook-token",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -4958,10 +5499,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithGoogle"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/google-token",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5013,10 +5557,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithGoogleAndroid"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/google-android",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5068,10 +5615,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithGoogleIOS"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/google-ios",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5123,10 +5673,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithAppleIOS"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/apple-ios",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5178,10 +5731,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithOTP"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/otp",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5225,10 +5781,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithEmailAndPassword"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/password",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5280,10 +5839,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["sendResetPasswordEmail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/password/reset",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5327,10 +5889,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["forgotPassword"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/password/reset/forgot",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5374,10 +5939,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["sendResetToken"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/password/reset/token",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5421,10 +5989,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["loginWithToken"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/login/token",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5476,10 +6047,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["registerWithForm"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/register/form",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5523,10 +6097,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["verifyEmail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/verify/email",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5570,10 +6147,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["verifyMobile"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/verify/mobile",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5617,10 +6197,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["hasPassword"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/user/authentication/v1.0/has-password",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -5664,10 +6247,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["updatePassword"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/password",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5711,10 +6297,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["logout"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/user/authentication/v1.0/logout",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -5766,10 +6355,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["sendOTPOnMobile"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/otp/mobile/send",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5821,10 +6413,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["verifyMobileOTP"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/otp/mobile/verify",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5876,10 +6471,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["sendOTPOnEmail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/otp/email/send",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5931,10 +6529,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["verifyEmailOTP"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/authentication/v1.0/otp/email/verify",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -5978,10 +6579,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["getLoggedInUser"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/user/authentication/v1.0/session",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -6025,10 +6629,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["getListOfActiveSessions"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/user/authentication/v1.0/sessions",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -6080,10 +6687,13 @@ if let value = name {
  
 
 
+
+            var fullUrl = relativeUrls["getPlatformConfig"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/user/platform/v1.0/config",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -6135,10 +6745,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["updateProfile"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/profile/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6190,10 +6803,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["addMobileNumber"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/user/profile/v1.0/mobile",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6275,10 +6891,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["deleteMobileNumber"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/user/profile/v1.0/mobile",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -6322,10 +6941,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["setMobileNumberAsPrimary"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/profile/v1.0/mobile/primary",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6377,10 +6999,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["sendVerificationLinkToMobile"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/profile/v1.0/mobile/link/send",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6432,10 +7057,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["addEmail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/user/profile/v1.0/email",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6511,10 +7139,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["deleteEmail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/user/profile/v1.0/email",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -6558,10 +7189,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["setEmailAsPrimary"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/profile/v1.0/email/primary",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6613,10 +7247,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["sendVerificationLinkToEmail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/user/profile/v1.0/email/link/send",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -6650,9 +7287,56 @@ if let value = platform {
     public class Content {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getAnnouncements"] = config.domain.appendAsPath("/service/application/content/v1.0/announcements") 
+            
+            ulrs["getBlog"] = config.domain.appendAsPath("/service/application/content/v1.0/blogs/{slug}") 
+            
+            ulrs["getBlogs"] = config.domain.appendAsPath("/service/application/content/v1.0/blogs/") 
+            
+            ulrs["getDataLoaders"] = config.domain.appendAsPath("/service/application/content/v1.0/data-loader") 
+            
+            ulrs["getFaqs"] = config.domain.appendAsPath("/service/application/content/v1.0/faq") 
+            
+            ulrs["getFaqCategories"] = config.domain.appendAsPath("/service/application/content/v1.0/faq/categories") 
+            
+            ulrs["getFaqBySlug"] = config.domain.appendAsPath("/service/application/content/v1.0/faq/{slug}") 
+            
+            ulrs["getFaqCategoryBySlug"] = config.domain.appendAsPath("/service/application/content/v1.0/faq/category/{slug}") 
+            
+            ulrs["getFaqsByCategorySlug"] = config.domain.appendAsPath("/service/application/content/v1.0/faq/category/{slug}/faqs") 
+            
+            ulrs["getLandingPage"] = config.domain.appendAsPath("/service/application/content/v1.0/landing-page") 
+            
+            ulrs["getLegalInformation"] = config.domain.appendAsPath("/service/application/content/v1.0/legal") 
+            
+            ulrs["getNavigations"] = config.domain.appendAsPath("/service/application/content/v1.0/navigations/") 
+            
+            ulrs["getSEOConfiguration"] = config.domain.appendAsPath("/service/application/content/v1.0/seo") 
+            
+            ulrs["getSlideshows"] = config.domain.appendAsPath("/service/application/content/v1.0/slideshow/") 
+            
+            ulrs["getSlideshow"] = config.domain.appendAsPath("/service/application/content/v1.0/slideshow/{slug}") 
+            
+            ulrs["getSupportInformation"] = config.domain.appendAsPath("/service/application/content/v1.0/support") 
+            
+            ulrs["getTags"] = config.domain.appendAsPath("/service/application/content/v1.0/tags") 
+            
+            ulrs["getPage"] = config.domain.appendAsPath("/service/application/content/v2.0/pages/{slug}") 
+            
+            ulrs["getPages"] = config.domain.appendAsPath("/service/application/content/v2.0/pages/") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -6672,10 +7356,13 @@ if let value = platform {
  
 
 
+
+            var fullUrl = relativeUrls["getAnnouncements"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/announcements",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -6728,10 +7415,15 @@ if let value = rootId {
  
 
 
+
+            var fullUrl = relativeUrls["getBlog"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/blogs/\(slug)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -6791,10 +7483,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getBlogs"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/blogs/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -6881,10 +7576,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getDataLoaders"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/data-loader",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -6928,10 +7626,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFaqs"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/faq",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -6975,10 +7676,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFaqCategories"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/faq/categories",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7023,10 +7727,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFaqBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/faq/\(slug)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7071,10 +7780,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFaqCategoryBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/faq/category/\(slug)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7119,10 +7833,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getFaqsByCategorySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/faq/category/\(slug)/faqs",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7166,10 +7885,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getLandingPage"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/landing-page",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7213,10 +7935,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getLegalInformation"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/legal",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7276,10 +8001,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getNavigations"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/navigations/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -7366,10 +8094,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getSEOConfiguration"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/seo",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7429,10 +8160,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getSlideshows"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/slideshow/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -7520,10 +8254,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getSlideshow"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/slideshow/\(slug)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7567,10 +8306,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getSupportInformation"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/support",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7614,10 +8356,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getTags"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v1.0/tags",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7670,10 +8415,15 @@ if let value = rootId {
  
 
 
+
+            var fullUrl = relativeUrls["getPage"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v2.0/pages/\(slug)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -7733,10 +8483,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getPages"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/content/v2.0/pages/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -7813,9 +8566,24 @@ if let value = pageSize {
     public class Communication {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getCommunicationConsent"] = config.domain.appendAsPath("/service/application/communication/v1.0/consent") 
+            
+            ulrs["upsertCommunicationConsent"] = config.domain.appendAsPath("/service/application/communication/v1.0/consent") 
+            
+            ulrs["upsertAppPushtoken"] = config.domain.appendAsPath("/service/application/communication/v1.0/pn-token") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -7835,10 +8603,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getCommunicationConsent"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/communication/v1.0/consent",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -7882,10 +8653,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["upsertCommunicationConsent"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/communication/v1.0/consent",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -7929,10 +8703,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["upsertAppPushtoken"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/communication/v1.0/pn-token",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -7966,9 +8743,32 @@ if let value = pageSize {
     public class Share {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getApplicationQRCode"] = config.domain.appendAsPath("/service/application/share/v1.0/qr/") 
+            
+            ulrs["getProductQRCodeBySlug"] = config.domain.appendAsPath("/service/application/share/v1.0/qr/products/{slug}/") 
+            
+            ulrs["getCollectionQRCodeBySlug"] = config.domain.appendAsPath("/service/application/share/v1.0/qr/collection/{slug}/") 
+            
+            ulrs["getUrlQRCode"] = config.domain.appendAsPath("/service/application/share/v1.0/qr/url/") 
+            
+            ulrs["createShortLink"] = config.domain.appendAsPath("/service/application/share/v1.0/links/short-link/") 
+            
+            ulrs["getShortLinkByHash"] = config.domain.appendAsPath("/service/application/share/v1.0/links/short-link/{hash}/") 
+            
+            ulrs["getOriginalShortLinkByHash"] = config.domain.appendAsPath("/service/application/share/v1.0/links/short-link/{hash}/original/") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -7988,10 +8788,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getApplicationQRCode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/share/v1.0/qr/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8036,10 +8839,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getProductQRCodeBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/share/v1.0/qr/products/\(slug)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8084,10 +8892,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getCollectionQRCodeBySlug"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/share/v1.0/qr/collection/\(slug)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8137,10 +8950,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getUrlQRCode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/share/v1.0/qr/url/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -8184,10 +9000,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["createShortLink"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/share/v1.0/links/short-link/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -8232,10 +9051,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getShortLinkByHash"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "hash" + "}", with: "\(hash)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/share/v1.0/links/short-link/\(hash)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8280,10 +9104,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getOriginalShortLinkByHash"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "hash" + "}", with: "\(hash)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/share/v1.0/links/short-link/\(hash)/original/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8317,9 +9146,24 @@ var xQuery: [String: Any] = [:]
     public class FileStorage {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["startUpload"] = config.domain.appendAsPath("/service/application/assets/v1.0/namespaces/{namespace}/upload/start/") 
+            
+            ulrs["completeUpload"] = config.domain.appendAsPath("/service/application/assets/v1.0/namespaces/{namespace}/upload/complete/") 
+            
+            ulrs["signUrls"] = config.domain.appendAsPath("/service/application/assets/v1.0/sign-urls/") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -8358,10 +9202,15 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["startUpload"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "namespace" + "}", with: "\(namespace)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/assets/v1.0/namespaces/\(namespace)/upload/start/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -8424,10 +9273,15 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["completeUpload"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "namespace" + "}", with: "\(namespace)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/assets/v1.0/namespaces/\(namespace)/upload/complete/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -8471,10 +9325,13 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["signUrls"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/assets/v1.0/sign-urls/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -8508,9 +9365,48 @@ This operation will return the URL of the uploaded file.
     public class Configuration {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getApplication"] = config.domain.appendAsPath("/service/application/configuration/v1.0/application") 
+            
+            ulrs["getOwnerInfo"] = config.domain.appendAsPath("/service/application/configuration/v1.0/about") 
+            
+            ulrs["getBasicDetails"] = config.domain.appendAsPath("/service/application/configuration/v1.0/detail") 
+            
+            ulrs["getIntegrationTokens"] = config.domain.appendAsPath("/service/application/configuration/v1.0/token") 
+            
+            ulrs["getOrderingStores"] = config.domain.appendAsPath("/service/application/configuration/v1.0/ordering-store/stores") 
+            
+            ulrs["getStoreDetailById"] = config.domain.appendAsPath("/service/application/configuration/v1.0/ordering-store/stores/{store_id}") 
+            
+            ulrs["getFeatures"] = config.domain.appendAsPath("/service/application/configuration/v1.0/feature") 
+            
+            ulrs["getContactInfo"] = config.domain.appendAsPath("/service/application/configuration/v1.0/information") 
+            
+            ulrs["getCurrencies"] = config.domain.appendAsPath("/service/application/configuration/v1.0/currencies") 
+            
+            ulrs["getCurrencyById"] = config.domain.appendAsPath("/service/application/configuration/v1.0/currency/{id}") 
+            
+            ulrs["getAppCurrencies"] = config.domain.appendAsPath("/service/application/configuration/v1.0/currency") 
+            
+            ulrs["getLanguages"] = config.domain.appendAsPath("/service/application/configuration/v1.0/languages") 
+            
+            ulrs["getOrderingStoreCookie"] = config.domain.appendAsPath("/service/application/configuration/v1.0/ordering-store/select") 
+            
+            ulrs["removeOrderingStoreCookie"] = config.domain.appendAsPath("/service/application/configuration/v1.0/ordering-store/select") 
+            
+            ulrs["getAppStaffs"] = config.domain.appendAsPath("/service/application/configuration/v1.0/staff") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -8530,10 +9426,13 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["getApplication"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/application",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8577,10 +9476,13 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["getOwnerInfo"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/about",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8624,10 +9526,13 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["getBasicDetails"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/detail",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8671,10 +9576,13 @@ This operation will return the URL of the uploaded file.
  
 
 
+
+            var fullUrl = relativeUrls["getIntegrationTokens"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/token",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8742,10 +9650,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getOrderingStores"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/ordering-store/stores",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -8839,10 +9750,15 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getStoreDetailById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "store_id" + "}", with: "\(storeId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/ordering-store/stores/\(storeId)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8886,10 +9802,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getFeatures"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/feature",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8933,10 +9852,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getContactInfo"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/information",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -8980,10 +9902,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getCurrencies"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/currencies",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -9028,10 +9953,15 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getCurrencyById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/currency/\(id)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -9075,10 +10005,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getAppCurrencies"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/currency",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -9122,10 +10055,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getLanguages"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/languages",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -9169,10 +10105,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["getOrderingStoreCookie"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/configuration/v1.0/ordering-store/select",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9216,10 +10155,13 @@ if let value = q {
  
 
 
+
+            var fullUrl = relativeUrls["removeOrderingStoreCookie"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/configuration/v1.0/ordering-store/select",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -9287,10 +10229,13 @@ if let value = user {
  
 
 
+
+            var fullUrl = relativeUrls["getAppStaffs"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/configuration/v1.0/staff",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -9324,9 +10269,62 @@ if let value = user {
     public class Payment {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getAggregatorsConfig"] = config.domain.appendAsPath("/service/application/payment/v1.0/config/aggregators/key") 
+            
+            ulrs["attachCardToCustomer"] = config.domain.appendAsPath("/service/application/payment/v1.0/card/attach") 
+            
+            ulrs["getActiveCardAggregator"] = config.domain.appendAsPath("/service/application/payment/v1.0/card/aggregator") 
+            
+            ulrs["getActiveUserCards"] = config.domain.appendAsPath("/service/application/payment/v1.0/cards") 
+            
+            ulrs["deleteUserCard"] = config.domain.appendAsPath("/service/application/payment/v1.0/card/remove") 
+            
+            ulrs["verifyCustomerForPayment"] = config.domain.appendAsPath("/service/application/payment/v1.0/payment/customer/validation") 
+            
+            ulrs["verifyAndChargePayment"] = config.domain.appendAsPath("/service/application/payment/v1.0/payment/confirm/charge") 
+            
+            ulrs["initialisePayment"] = config.domain.appendAsPath("/service/application/payment/v1.0/payment/request") 
+            
+            ulrs["checkAndUpdatePaymentStatus"] = config.domain.appendAsPath("/service/application/payment/v1.0/payment/confirm/polling") 
+            
+            ulrs["getPaymentModeRoutes"] = config.domain.appendAsPath("/service/application/payment/v1.0/payment/options") 
+            
+            ulrs["getPosPaymentModeRoutes"] = config.domain.appendAsPath("/service/application/payment/v1.0/payment/options/pos") 
+            
+            ulrs["getRupifiBannerDetails"] = config.domain.appendAsPath("/service/application/payment/v1.0/rupifi/banner") 
+            
+            ulrs["getActiveRefundTransferModes"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/transfer-mode") 
+            
+            ulrs["enableOrDisableRefundTransferMode"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/transfer-mode") 
+            
+            ulrs["getUserBeneficiariesDetail"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/user/beneficiary") 
+            
+            ulrs["verifyIfscCode"] = config.domain.appendAsPath("/service/application/payment/v1.0/ifsc-code/verify") 
+            
+            ulrs["getOrderBeneficiariesDetail"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/order/beneficiaries") 
+            
+            ulrs["verifyOtpAndAddBeneficiaryForBank"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/verification/bank") 
+            
+            ulrs["addBeneficiaryDetails"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/account") 
+            
+            ulrs["addRefundBankAccountUsingOTP"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/account/otp") 
+            
+            ulrs["verifyOtpAndAddBeneficiaryForWallet"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/verification/wallet") 
+            
+            ulrs["updateDefaultBeneficiary"] = config.domain.appendAsPath("/service/application/payment/v1.0/refund/beneficiary/default") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -9361,10 +10359,13 @@ if let value = xApiToken {
 }
 
 
+
+            var fullUrl = relativeUrls["getAggregatorsConfig"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/config/aggregators/key",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  xHeaders,
                 body: nil,
@@ -9408,10 +10409,13 @@ if let value = xApiToken {
  
 
 
+
+            var fullUrl = relativeUrls["attachCardToCustomer"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/card/attach",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9463,10 +10467,13 @@ if let value = refresh {
  
 
 
+
+            var fullUrl = relativeUrls["getActiveCardAggregator"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/card/aggregator",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -9518,10 +10525,13 @@ if let value = forceRefresh {
  
 
 
+
+            var fullUrl = relativeUrls["getActiveUserCards"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/cards",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -9565,10 +10575,13 @@ if let value = forceRefresh {
  
 
 
+
+            var fullUrl = relativeUrls["deleteUserCard"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/card/remove",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9612,10 +10625,13 @@ if let value = forceRefresh {
  
 
 
+
+            var fullUrl = relativeUrls["verifyCustomerForPayment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/payment/customer/validation",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9659,10 +10675,13 @@ if let value = forceRefresh {
  
 
 
+
+            var fullUrl = relativeUrls["verifyAndChargePayment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/payment/confirm/charge",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9706,10 +10725,13 @@ if let value = forceRefresh {
  
 
 
+
+            var fullUrl = relativeUrls["initialisePayment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/payment/request",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9753,10 +10775,13 @@ if let value = forceRefresh {
  
 
 
+
+            var fullUrl = relativeUrls["checkAndUpdatePaymentStatus"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/payment/confirm/polling",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -9848,10 +10873,13 @@ if let value = userDetails {
  
 
 
+
+            var fullUrl = relativeUrls["getPaymentModeRoutes"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/payment/options",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -9949,10 +10977,13 @@ if let value = userDetails {
  
 
 
+
+            var fullUrl = relativeUrls["getPosPaymentModeRoutes"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/payment/options/pos",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -9996,10 +11027,13 @@ if let value = userDetails {
  
 
 
+
+            var fullUrl = relativeUrls["getRupifiBannerDetails"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/rupifi/banner",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10043,10 +11077,13 @@ if let value = userDetails {
  
 
 
+
+            var fullUrl = relativeUrls["getActiveRefundTransferModes"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/refund/transfer-mode",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10090,10 +11127,13 @@ if let value = userDetails {
  
 
 
+
+            var fullUrl = relativeUrls["enableOrDisableRefundTransferMode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/payment/v1.0/refund/transfer-mode",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10143,10 +11183,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getUserBeneficiariesDetail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/refund/user/beneficiary",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -10198,10 +11241,13 @@ if let value = ifscCode {
  
 
 
+
+            var fullUrl = relativeUrls["verifyIfscCode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/ifsc-code/verify",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -10251,10 +11297,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getOrderBeneficiariesDetail"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/payment/v1.0/refund/order/beneficiaries",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -10298,10 +11347,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["verifyOtpAndAddBeneficiaryForBank"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/refund/verification/bank",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10345,10 +11397,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["addBeneficiaryDetails"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/refund/account",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10392,10 +11447,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["addRefundBankAccountUsingOTP"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/refund/account/otp",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10439,10 +11497,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["verifyOtpAndAddBeneficiaryForWallet"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/refund/verification/wallet",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10486,10 +11547,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["updateDefaultBeneficiary"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/payment/v1.0/refund/beneficiary/default",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10523,9 +11587,38 @@ var xQuery: [String: Any] = [:]
     public class Order {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getOrders"] = config.domain.appendAsPath("/service/application/order/v1.0/orders") 
+            
+            ulrs["getOrderById"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/{order_id}") 
+            
+            ulrs["getShipmentById"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/shipments/{shipment_id}") 
+            
+            ulrs["getShipmentReasons"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/shipments/{shipment_id}/reasons") 
+            
+            ulrs["updateShipmentStatus"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/shipments/{shipment_id}/status") 
+            
+            ulrs["trackShipment"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/shipments/{shipment_id}/track") 
+            
+            ulrs["getPosOrderById"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/pos-order/{order_id}") 
+            
+            ulrs["getCustomerDetailsByShipmentId"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/{order_id}/shipments/{shipment_id}/customer-details") 
+            
+            ulrs["sendOtpToShipmentCustomer"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/{order_id}/shipments/{shipment_id}/otp/send/") 
+            
+            ulrs["verifyOtpShipmentCustomer"] = config.domain.appendAsPath("/service/application/order/v1.0/orders/{order_id}/shipments/{shipment_id}/otp/verify") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -10585,10 +11678,13 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getOrders"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -10633,10 +11729,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getOrderById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "order_id" + "}", with: "\(orderId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders/\(orderId)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10681,10 +11782,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getShipmentById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders/shipments/\(shipmentId)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10729,10 +11835,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getShipmentReasons"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders/shipments/\(shipmentId)/reasons",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10777,10 +11888,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["updateShipmentStatus"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/order/v1.0/orders/shipments/\(shipmentId)/status",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -10825,10 +11941,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["trackShipment"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders/shipments/\(shipmentId)/track",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10873,10 +11994,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getPosOrderById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "order_id" + "}", with: "\(orderId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders/pos-order/\(orderId)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10922,10 +12048,17 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getCustomerDetailsByShipmentId"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "order_id" + "}", with: "\(orderId)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/order/v1.0/orders/\(orderId)/shipments/\(shipmentId)/customer-details",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -10971,10 +12104,17 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["sendOtpToShipmentCustomer"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "order_id" + "}", with: "\(orderId)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/order/v1.0/orders/\(orderId)/shipments/\(shipmentId)/otp/send/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -11020,10 +12160,17 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["verifyOtpShipmentCustomer"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "order_id" + "}", with: "\(orderId)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "shipment_id" + "}", with: "\(shipmentId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/order/v1.0/orders/\(orderId)/shipments/\(shipmentId)/otp/verify",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11057,9 +12204,32 @@ if let value = status {
     public class Rewards {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getPointsOnProduct"] = config.domain.appendAsPath("/service/application/rewards/v1.0/catalogue/offer/order/") 
+            
+            ulrs["getOfferByName"] = config.domain.appendAsPath("/service/application/rewards/v1.0/offers/{name}/") 
+            
+            ulrs["getOrderDiscount"] = config.domain.appendAsPath("/service/application/rewards/v1.0/user/offers/order-discount/") 
+            
+            ulrs["getUserPoints"] = config.domain.appendAsPath("/service/application/rewards/v1.0/user/points/") 
+            
+            ulrs["getUserPointsHistory"] = config.domain.appendAsPath("/service/application/rewards/v1.0/user/points/history/") 
+            
+            ulrs["getUserReferralDetails"] = config.domain.appendAsPath("/service/application/rewards/v1.0/user/referral/") 
+            
+            ulrs["redeemReferralCode"] = config.domain.appendAsPath("/service/application/rewards/v1.0/user/referral/redeem/") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -11079,10 +12249,13 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getPointsOnProduct"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/rewards/v1.0/catalogue/offer/order/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11127,10 +12300,15 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getOfferByName"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "name" + "}", with: "\(name)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/rewards/v1.0/offers/\(name)/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -11174,10 +12352,13 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getOrderDiscount"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/rewards/v1.0/user/offers/order-discount/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11221,10 +12402,13 @@ if let value = status {
  
 
 
+
+            var fullUrl = relativeUrls["getUserPoints"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/rewards/v1.0/user/points/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -11284,10 +12468,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getUserPointsHistory"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/rewards/v1.0/user/points/history/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -11375,10 +12562,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getUserReferralDetails"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/rewards/v1.0/user/referral/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -11422,10 +12612,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["redeemReferralCode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/rewards/v1.0/user/referral/redeem/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11459,9 +12652,70 @@ if let value = pageSize {
     public class Feedback {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["createAbuseReport"] = config.domain.appendAsPath("/service/application/feedback/v1.0/abuse/") 
+            
+            ulrs["updateAbuseReport"] = config.domain.appendAsPath("/service/application/feedback/v1.0/abuse/") 
+            
+            ulrs["getAbuseReports"] = config.domain.appendAsPath("/service/application/feedback/v1.0/abuse/entity/{entity_type}/entity-id/{entity_id}") 
+            
+            ulrs["getAttributes"] = config.domain.appendAsPath("/service/application/feedback/v1.0/attributes/") 
+            
+            ulrs["createAttribute"] = config.domain.appendAsPath("/service/application/feedback/v1.0/attributes/") 
+            
+            ulrs["getAttribute"] = config.domain.appendAsPath("/service/application/feedback/v1.0/attributes/{slug}") 
+            
+            ulrs["updateAttribute"] = config.domain.appendAsPath("/service/application/feedback/v1.0/attributes/{slug}") 
+            
+            ulrs["createComment"] = config.domain.appendAsPath("/service/application/feedback/v1.0/comment/") 
+            
+            ulrs["updateComment"] = config.domain.appendAsPath("/service/application/feedback/v1.0/comment/") 
+            
+            ulrs["getComments"] = config.domain.appendAsPath("/service/application/feedback/v1.0/comment/entity/{entity_type}") 
+            
+            ulrs["checkEligibility"] = config.domain.appendAsPath("/service/application/feedback/v1.0/config/entity/{entity_type}/entity-id/{entity_id}") 
+            
+            ulrs["deleteMedia"] = config.domain.appendAsPath("/service/application/feedback/v1.0/media/") 
+            
+            ulrs["createMedia"] = config.domain.appendAsPath("/service/application/feedback/v1.0/media/") 
+            
+            ulrs["updateMedia"] = config.domain.appendAsPath("/service/application/feedback/v1.0/media/") 
+            
+            ulrs["getMedias"] = config.domain.appendAsPath("/service/application/feedback/v1.0/media/entity/{entity_type}/entity-id/{entity_id}") 
+            
+            ulrs["getReviewSummaries"] = config.domain.appendAsPath("/service/application/feedback/v1.0/rating/summary/entity/{entity_type}/entity-id/{entity_id}") 
+            
+            ulrs["createReview"] = config.domain.appendAsPath("/service/application/feedback/v1.0/review/") 
+            
+            ulrs["updateReview"] = config.domain.appendAsPath("/service/application/feedback/v1.0/review/") 
+            
+            ulrs["getReviews"] = config.domain.appendAsPath("/service/application/feedback/v1.0/review/entity/{entity_type}/entity-id/{entity_id}") 
+            
+            ulrs["getTemplates"] = config.domain.appendAsPath("/service/application/feedback/v1.0/template/") 
+            
+            ulrs["createQuestion"] = config.domain.appendAsPath("/service/application/feedback/v1.0/template/qna/") 
+            
+            ulrs["updateQuestion"] = config.domain.appendAsPath("/service/application/feedback/v1.0/template/qna/") 
+            
+            ulrs["getQuestionAndAnswers"] = config.domain.appendAsPath("/service/application/feedback/v1.0/template/qna/entity/{entity_type}/entity-id/{entity_id}") 
+            
+            ulrs["getVotes"] = config.domain.appendAsPath("/service/application/feedback/v1.0/vote/") 
+            
+            ulrs["createVote"] = config.domain.appendAsPath("/service/application/feedback/v1.0/vote/") 
+            
+            ulrs["updateVote"] = config.domain.appendAsPath("/service/application/feedback/v1.0/vote/") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -11481,10 +12735,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["createAbuseReport"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/abuse/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11528,10 +12785,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["updateAbuseReport"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/abuse/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11601,10 +12861,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getAbuseReports"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_id" + "}", with: "\(entityId)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/abuse/entity/\(entityType)/entityId/\(entityId)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -11726,10 +12993,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getAttributes"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/attributes/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -11816,10 +13086,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["createAttribute"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/attributes/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11864,10 +13137,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getAttribute"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/attributes/\(slug)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -11912,10 +13190,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["updateAttribute"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "slug" + "}", with: "\(slug)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/attributes/\(slug)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -11959,10 +13242,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["createComment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/comment/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -12006,10 +13292,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["updateComment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/comment/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -12094,10 +13383,15 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getComments"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/comment/entity/\(entityType)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -12211,10 +13505,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["checkEligibility"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_id" + "}", with: "\(entityId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/config/entity/\(entityType)/entityId/\(entityId)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -12264,10 +13565,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["deleteMedia"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/feedback/v1.0/media/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -12311,10 +13615,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["createMedia"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/media/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -12358,10 +13665,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["updateMedia"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/media/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -12439,10 +13749,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getMedias"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_id" + "}", with: "\(entityId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/media/entity/\(entityType)/entityId/\(entityId)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -12580,10 +13897,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getReviewSummaries"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_id" + "}", with: "\(entityId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/rating/summary/entity/\(entityType)/entityId/\(entityId)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -12689,10 +14013,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["createReview"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/review/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -12736,10 +14063,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["updateReview"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/review/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -12873,10 +14203,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getReviews"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_id" + "}", with: "\(entityId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/review/entity/\(entityType)/entityId/\(entityId)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13054,10 +14391,13 @@ if let value = entityType {
  
 
 
+
+            var fullUrl = relativeUrls["getTemplates"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/template/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13101,10 +14441,13 @@ if let value = entityType {
  
 
 
+
+            var fullUrl = relativeUrls["createQuestion"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/template/qna/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -13148,10 +14491,13 @@ if let value = entityType {
  
 
 
+
+            var fullUrl = relativeUrls["updateQuestion"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/template/qna/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -13237,10 +14583,17 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getQuestionAndAnswers"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_type" + "}", with: "\(entityType)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "entity_id" + "}", with: "\(entityId)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/template/qna/entity/\(entityType)/entityId/\(entityId)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13390,10 +14743,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["getVotes"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/feedback/v1.0/vote/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13492,10 +14848,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["createVote"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/feedback/v1.0/vote/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -13539,10 +14898,13 @@ if let value = pageSize {
  
 
 
+
+            var fullUrl = relativeUrls["updateVote"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/feedback/v1.0/vote/",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -13576,9 +14938,72 @@ if let value = pageSize {
     public class PosCart {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getCart"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/detail") 
+            
+            ulrs["getCartLastModified"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/detail") 
+            
+            ulrs["addItems"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/detail") 
+            
+            ulrs["updateCart"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/detail") 
+            
+            ulrs["getItemCount"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/basic") 
+            
+            ulrs["getCoupons"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/coupon") 
+            
+            ulrs["applyCoupon"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/coupon") 
+            
+            ulrs["removeCoupon"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/coupon") 
+            
+            ulrs["getBulkDiscountOffers"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/bulk-price") 
+            
+            ulrs["applyRewardPoints"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/redeem/points/") 
+            
+            ulrs["getAddresses"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/address") 
+            
+            ulrs["addAddress"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/address") 
+            
+            ulrs["getAddressById"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/address/{id}") 
+            
+            ulrs["updateAddress"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/address/{id}") 
+            
+            ulrs["removeAddress"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/address/{id}") 
+            
+            ulrs["selectAddress"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/select-address") 
+            
+            ulrs["selectPaymentMode"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/payment") 
+            
+            ulrs["validateCouponForPayment"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/payment/validate/") 
+            
+            ulrs["getShipments"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/shipment") 
+            
+            ulrs["updateShipments"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/shipment") 
+            
+            ulrs["checkoutCart"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/checkout") 
+            
+            ulrs["updateCartMeta"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/meta") 
+            
+            ulrs["getAvailableDeliveryModes"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/available-delivery-mode") 
+            
+            ulrs["getStoreAddressByUid"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/store-address") 
+            
+            ulrs["getCartShareLink"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/share-cart") 
+            
+            ulrs["getCartSharedItems"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/share-cart/{token}") 
+            
+            ulrs["updateCartWithSharedItems"] = config.domain.appendAsPath("/service/application/pos/cart/v1.0/share-cart/{token}/{action}") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -13630,10 +15055,13 @@ if let value = assignCardId {
  
 
 
+
+            var fullUrl = relativeUrls["getCart"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13685,10 +15113,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCartLastModified"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "head",
-                url: "/service/application/pos/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13748,10 +15179,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["addItems"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -13819,10 +15253,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["updateCart"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/pos/cart/v1.0/detail",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -13874,10 +15311,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getItemCount"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/basic",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -13929,10 +15369,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getCoupons"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/coupon",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14008,10 +15451,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["applyCoupon"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/coupon",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14063,10 +15509,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["removeCoupon"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/pos/cart/v1.0/coupon",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14142,10 +15591,13 @@ if let value = slug {
  
 
 
+
+            var fullUrl = relativeUrls["getBulkDiscountOffers"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/bulk-price",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14213,10 +15665,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["applyRewardPoints"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/redeem/points/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14300,10 +15755,13 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["getAddresses"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/address",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14347,10 +15805,13 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["addAddress"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/address",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14435,10 +15896,15 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["getAddressById"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/address/\(id)",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14483,10 +15949,15 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["updateAddress"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/pos/cart/v1.0/address/\(id)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14531,10 +16002,15 @@ if let value = isDefault {
  
 
 
+
+            var fullUrl = relativeUrls["removeAddress"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "id" + "}", with: "\(id)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "delete",
-                url: "/service/application/pos/cart/v1.0/address/\(id)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -14602,10 +16078,13 @@ if let value = b {
  
 
 
+
+            var fullUrl = relativeUrls["selectAddress"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/select-address",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14657,10 +16136,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["selectPaymentMode"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/pos/cart/v1.0/payment",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14752,10 +16234,13 @@ if let value = merchantCode {
  
 
 
+
+            var fullUrl = relativeUrls["validateCouponForPayment"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/payment/validate/",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14855,10 +16340,13 @@ if let value = orderType {
  
 
 
+
+            var fullUrl = relativeUrls["getShipments"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/shipment",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -14942,10 +16430,13 @@ if let value = orderType {
  
 
 
+
+            var fullUrl = relativeUrls["updateShipments"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/pos/cart/v1.0/shipment",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -14997,10 +16488,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["checkoutCart"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/checkout",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -15052,10 +16546,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["updateCartMeta"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "put",
-                url: "/service/application/pos/cart/v1.0/meta",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -15113,10 +16610,13 @@ if let value = id {
  
 
 
+
+            var fullUrl = relativeUrls["getAvailableDeliveryModes"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/available-delivery-mode",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -15166,10 +16666,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getStoreAddressByUid"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/store-address",
+                url: fullUrl,
                 query: xQuery,
                 extraHeaders:  [],
                 body: nil,
@@ -15213,10 +16716,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getCartShareLink"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/share-cart",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -15261,10 +16767,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getCartSharedItems"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "token" + "}", with: "\(token)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/pos/cart/v1.0/share-cart/\(token)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -15310,10 +16821,17 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["updateCartWithSharedItems"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "token" + "}", with: "\(token)")
+            
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "action" + "}", with: "\(action)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/pos/cart/v1.0/share-cart/\(token)/\(action)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
@@ -15347,9 +16865,22 @@ var xQuery: [String: Any] = [:]
     public class Logistic {
         
         var config: ApplicationConfig
+        var relativeUrls = [String: String]()
 
         init(config: ApplicationConfig) {
             self.config = config;
+            var ulrs = [String: String]()
+            
+            ulrs["getTatProduct"] = config.domain.appendAsPath("/service/application/logistics/v1.0") 
+            
+            ulrs["getPincodeCity"] = config.domain.appendAsPath("/service/application/logistics/v1.0/pincode/{pincode}") 
+            
+            self.relativeUrls = ulrs
+        }
+        public func update(updatedUrl : [String: String]){
+            for (key, value) in updatedUrl{
+            self.relativeUrls[key] = value
+            }
         }
         
         
@@ -15369,10 +16900,13 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getTatProduct"] ?? ""
+             
             ApplicationAPIClient.execute(
                 config: config,
                 method: "post",
-                url: "/service/application/logistics/v1.0",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: body.dictionary,
@@ -15417,10 +16951,15 @@ var xQuery: [String: Any] = [:]
  
 
 
+
+            var fullUrl = relativeUrls["getPincodeCity"] ?? ""
+             
+                fullUrl = fullUrl.replacingOccurrences(of: "{" + "pincode" + "}", with: "\(pincode)")
+            
             ApplicationAPIClient.execute(
                 config: config,
                 method: "get",
-                url: "/service/application/logistics/v1.0/pincode/\(pincode)",
+                url: fullUrl,
                 query: nil,
                 extraHeaders:  [],
                 body: nil,
