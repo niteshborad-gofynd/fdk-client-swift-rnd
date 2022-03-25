@@ -13,9 +13,16 @@ public class PlatformAPIClient {
             if let token = token {
                 var finalHeaders = headers
                 finalHeaders.append((key: "Authorization", value: "Bearer " + token.accessToken))
-                finalHeaders.append((key: "x-fp-sdk-version", value: "0.1.14"))
+                finalHeaders.append((key: "x-fp-sdk-version", value: "0.1.15"))
+                finalHeaders.append(contentsOf: config.extraHeaders)
                 if let userAgent = config.userAgent {
                     finalHeaders.append((key: "User-Agent", value: userAgent))
+                }
+                if let language = config.language {
+                    finalHeaders.append((key: "Accept-Language", value: language))
+                }
+                if let currency = config.currency {
+                    finalHeaders.append((key: "x-currency-code",value: currency))
                 }
 
                 AlmofireHelper.request(config.domain.appendAsPath(url),

@@ -1588,7 +1588,7 @@ public extension PlatformClient {
     class CustomFormSubmissionPayload: Codable {
         
         
-        public var response: [KeyValue]
+        public var response: [[String: Any]]
         
         public var attachments: [TicketAsset]?
         
@@ -1601,7 +1601,7 @@ public extension PlatformClient {
             
         }
 
-        public init(attachments: [TicketAsset]?, response: [KeyValue]) {
+        public init(attachments: [TicketAsset]?, response: [[String: Any]]) {
             
             self.response = response
             
@@ -1619,7 +1619,7 @@ public extension PlatformClient {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             
             
-                response = try container.decode([KeyValue].self, forKey: .response)
+                response = try container.decode([[String: Any]].self, forKey: .response)
                 
             
             
@@ -1648,73 +1648,6 @@ public extension PlatformClient {
             
             
             try? container.encodeIfPresent(attachments, forKey: .attachments)
-            
-            
-        }
-        
-    }
-    
-    /*
-        Model: KeyValue
-        Used By: Lead
-    */
-
-    class KeyValue: Codable {
-        
-        
-        public var key: String
-        
-        public var value: [String: Any]
-        
-
-        public enum CodingKeys: String, CodingKey {
-            
-            case key = "key"
-            
-            case value = "value"
-            
-        }
-
-        public init(key: String, value: [String: Any]) {
-            
-            self.key = key
-            
-            self.value = value
-            
-        }
-
-        public func duplicate() -> KeyValue {
-            let dict = self.dictionary!
-            let copy = KeyValue(dictionary: dict)!
-            return copy
-        }
-
-        required public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            
-            
-                key = try container.decode(String.self, forKey: .key)
-                
-            
-            
-            
-                value = try container.decode([String: Any].self, forKey: .value)
-                
-            
-            
-        }
-        
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            
-            
-            
-            try? container.encodeIfPresent(key, forKey: .key)
-            
-            
-            
-            
-            try? container.encodeIfPresent(value, forKey: .value)
             
             
         }
